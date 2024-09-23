@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 function App() {
   return (
@@ -57,6 +57,25 @@ const ColumnHeader = styled.div``;
 
 const Card = styled.div``;
 
+const GlobalStyle = createGlobalStyle`
+  html, body, #app {
+    height: 100%;
+  }
+
+  body {
+    /* https://css-tricks.com/snippets/css/system-font-stack/ */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+
+    overflow-wrap: break-word;
+  }
+`;
+
 const container = document.getElementById('app');
 const root = createRoot(container!);
-root.render(<App />);
+root.render(
+  <>
+    <GlobalStyle />
+    <App />
+  </>
+);
