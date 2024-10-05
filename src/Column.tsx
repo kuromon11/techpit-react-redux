@@ -32,7 +32,7 @@ export function Column({
   const toggleInput = () => setInputMode((v) => !v);
   const confirmInput = () => setText('');
   const cancelInput = () => setInputMode(false);
-
+  // ドラッグオーバー（動かしていない場合はエフェクトを表示しない）
   const [draggingCardID, setDraggingCardID] = useState<string | undefined>(undefined);
 
   return (
