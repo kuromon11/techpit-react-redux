@@ -33,6 +33,8 @@ export function Column({
   const confirmInput = () => setText('');
   const cancelInput = () => setInputMode(false);
 
+  const [draggingCardID, setDraggingCardID] = useState<string | undefined>(undefined);
+
   return (
     <Container>
       <Header>
@@ -54,9 +56,25 @@ export function Column({
       {filterValue && <ResultCount>{cards.length} results</ResultCount>}
 
       <VerticalScroll>
-        {cards.map(({ id, text }) => (
-          <Card key={id} text={text} />
+        {cards.map(({ id, text }, i) => (
+          <Card.DropArea
+            key={id}
+            disabled={
+              draggingCardID !== undefined &&
+              (id === draggingCardID || cards[i - 1]?.id === draggingCardID)
+            }
+          >
+            <Card
+              text={text}
+              onDragStart={() => setDraggingCardID(id)}
+              onDragEnd={() => setDraggingCardID(undefined)}
+            />
+          </Card.DropArea>
         ))}
+        <Card.DropArea
+          style={{ height: '100%' }}
+          disabled={draggingCardID !== undefined && cards[cards.length - 1]?.id === draggingCardID}
+        />
       </VerticalScroll>
     </Container>
   );
