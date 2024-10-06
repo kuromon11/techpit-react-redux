@@ -80,6 +80,23 @@ export function App() {
   };
 
   const [deletingCardID, setDeletingCardID] = useState<string | undefined>(undefined);
+  const deleteCard = () => {
+    const cardID = deletingCardID;
+    if (!cardID) return;
+
+    setDeletingCardID(undefined);
+
+    setColumns((columns) => {
+      const setDeletingColumn = columns.find((col) => col.cards.some((c) => c.id === cardID));
+      if (!setDeletingColumn) return columns;
+
+      const updatedCards = setDeletingColumn.cards.filter((c) => c.id !== cardID);
+      return columns.map((column) => {
+        const hasDeleteCard = column.cards.some((card) => card.id === cardID);
+        return hasDeleteCard ? { ...column, cards: updatedCards } : column;
+      });
+    });
+  };
 
   return (
     <Container>
@@ -102,10 +119,7 @@ export function App() {
 
       {deletingCardID && (
         <Overlay onClick={() => setDeletingCardID(undefined)}>
-          <DeleteDialog
-            onConfirm={() => setDeletingCardID(undefined)}
-            onCancel={() => setDeletingCardID(undefined)}
-          />
+          <DeleteDialog onConfirm={deleteCard} onCancel={() => setDeletingCardID(undefined)} />
         </Overlay>
       )}
     </Container>
