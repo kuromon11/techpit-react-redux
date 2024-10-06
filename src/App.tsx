@@ -53,25 +53,20 @@ export function App() {
       }
 
       return columns.map((column) => {
-        let newColumn = column;
-
-        if (newColumn.cards.some((c) => c.id === fromID)) {
-          newColumn = {
-            ...newColumn,
-            cards: newColumn.cards.filter((c) => c.id !== fromID),
-          };
-        }
-
+        const hasNewColumn = column.cards.some((c) => c.id === fromID);
+        const newColumn = hasNewColumn
+          ? {
+              ...column,
+              cards: column.cards.filter((c) => c.id !== fromID),
+            }
+          : column;
         // 列の末尾に移動
         if (newColumn.id === toID) {
-          newColumn = {
-            ...newColumn,
-            cards: [...newColumn.cards, card],
-          };
+          return { ...newColumn, cards: [...newColumn.cards, card] };
         }
         // 列の末尾以外に移動
         else if (newColumn.cards.some((c) => c.id === toID)) {
-          newColumn = {
+          return {
             ...newColumn,
             cards: newColumn.cards.flatMap((c) => (c.id === toID ? [card, c] : [c])),
           };
