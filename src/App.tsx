@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import { Header as _Header } from './Header';
 import { Column } from './Column';
+import { DeleteDialog } from './DeleteDialog';
+import { Overlay as _Overlay } from './Overlay';
 
 export function App() {
   const [filterValue, setFilterValue] = useState('');
@@ -94,6 +96,9 @@ export function App() {
           ))}
         </HorizontalScroll>
       </MainArea>
+      <Overlay>
+        <DeleteDialog />
+      </Overlay>
     </Container>
   );
 }
@@ -130,4 +135,10 @@ const HorizontalScroll = styled.div`
     flex: 0 0 16px;
     content: '';
   }
+`;
+
+const Overlay = styled(_Overlay)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
